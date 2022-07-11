@@ -3,11 +3,13 @@ from .models import Double
 
 
 def name_is_valid(name):
-    alpha = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ '
+    alpha = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ -'
+
     for c in name:
         if c not in alpha:
             return False
         return True
+
 
 def double(request):
     doubles = Double.objects.all()
@@ -20,12 +22,12 @@ def double(request):
         error = 'max 1000 min -1000'
         return render(request, 'double.html', {'doubles': doubles, 'error': error})
 
-    name_user = request.POST.get('name_user')
-    if not name_is_valid(name_user):
-        error = 'Please dont user charctere'
-        return render(request, 'double.html', { 'error': error, 'doubles': doubles})
+    person_name = request.POST.get('person_name')
+    if not name_is_valid(person_name):
+        error = 'Plaese dont use characters'
+        return render(request, 'double.html', {'doubles': doubles, 'error': error})
 
-    already_exist = Double.objects.filter(name=name_user, value=value)
+    already_exist = Double.objects.filter(name=person_name, value=value)
     if already_exist.count() == 0:
-        Double.objects.create(name=name_user, value=value, double_value=value*2)
+        Double.objects.create(name=person_name, value=value, double_value=value*2)
     return render(request, 'double.html', {'doubles': doubles})

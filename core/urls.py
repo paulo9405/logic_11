@@ -3,5 +3,5 @@ from .views import double
 
 
 urlpatterns = [
-    path('', double, name='double'),
+    path('', double, name='double_number'),
 ]
